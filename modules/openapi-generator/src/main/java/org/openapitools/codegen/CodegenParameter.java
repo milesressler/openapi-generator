@@ -24,7 +24,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, jsonEncoding;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
-            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, encodingOverride;
 
     public String example; // example value (x-example)
     public String jsonSchema;
@@ -96,7 +96,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
         output.isFile = this.isFile;
-        output.jsonEncoding = this.jsonEncoding;
         output.hasMore = this.hasMore;
         output.isContainer = this.isContainer;
         output.secondaryParam = this.secondaryParam;
@@ -140,6 +139,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.maximum = this.maximum;
         output.minimum = this.minimum;
         output.pattern = this.pattern;
+        output.encodingOverride = this.encodingOverride;
 
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
@@ -178,6 +178,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isMapContainer = this.isMapContainer;
         output.isExplode = this.isExplode;
         output.style = this.style;
+        output.jsonEncoding = this.jsonEncoding;
 
         return output;
     }
@@ -251,6 +252,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(items, that.items) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(encodingOverride, that.encodingOverride) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
@@ -289,6 +291,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", encodingOverride='").append(encodingOverride).append('\'');
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", style='").append(style).append('\'');
         sb.append(", example='").append(example).append('\'');

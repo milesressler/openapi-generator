@@ -4917,6 +4917,8 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+
+        // Check for encoding
         Content c = body.getContent();
         String contentType = getContentType(body);
         Map<String, Encoding> parameterEncoding = null;
@@ -4984,10 +4986,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
 
                 if (parameterEncoding != null && parameterEncoding.containsKey(entry.getKey())) {
-                    String overrideContentType = parameterEncoding.getOrDefault(entry.getKey(), new Encoding()).getContentType();
-                    if (overrideContentType != null) {
-                        codegenParameter.jsonEncoding = overrideContentType.toLowerCase(Locale.ENGLISH).trim().equals("application/json");
-                    }
+                    codegenParameter.encodingOverride = parameterEncoding.getOrDefault(entry.getKey(), new Encoding()).getContentType();
                 }
 
                 parameters.add(codegenParameter);

@@ -282,8 +282,9 @@ namespace {{packageName}}.Client
         /// Otherwise just return the string.
         /// </summary>
         /// <param name="obj">The parameter (header, path, query, form).</param>
+        /// <param name="encodingOverride">Override the content type</param>
         /// <returns>Formatted string.</returns>
-        public string ParameterToString(object obj)
+        public string ParameterToString(object obj, string encodingOverride = null)
         {
             if (obj is DateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
@@ -299,6 +300,8 @@ namespace {{packageName}}.Client
                 return ((DateTimeOffset)obj).ToString (Configuration.DateTimeFormat);
             else if (obj is bool)
                 return (bool)obj ? "true" : "false";
+            else if (encodingOverride != null && "application/json".Equals(encodingOverride.Trim().ToLower()))
+                return JsonConvert.SerializeObject(obj, Formatting.Indented);
             else if (obj is IList)
             {
                 var flattenedString = new StringBuilder();
